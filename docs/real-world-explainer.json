@@ -1,0 +1,141 @@
+{
+  "project": {
+    "name": "lean4-merkle",
+    "description": "Lean 4 project demonstrating Merkle membership with a formal spec, an executable verifier, and completeness/soundness proofs — a public, portfolio-ready walkthrough.",
+    "location": "packages/lean4-merkle"
+  },
+  "purpose": "Explain, in real-world terms and sequenced steps, what this project does and how it maps to production scenarios like light clients, allowlists, and ZK circuits.",
+  "real_world_use_cases": [
+    {
+      "title": "Blockchain light client: transaction inclusion",
+      "context": "A light client verifies a transaction is in a block without downloading the full block.",
+      "inputs": ["root (from block header)", "leaf (tx hash)", "path (list of (dir, sibling) pairs)"] ,
+      "process": "Recompute a root from (leaf, path) using domain-separated hashing (left/right), then check equality with the header's root.",
+      "outputs": ["boolean: included? true/false"],
+      "trust_assumptions": ["Hash is collision-resistant", "Root is authentic (e.g., signed/consensus)"]
+    },
+    {
+      "title": "On-chain allowlist or state inclusion",
+      "context": "A smart contract checks if a user/account/value is included in a committed Merkle root.",
+      "inputs": ["root (stored on chain)", "leaf (user/account/value hash)", "path"],
+      "process": "Contract recomputes root and compares with stored root.",
+      "outputs": ["boolean/pass validation"],
+      "trust_assumptions": ["Hash function behavior and correct root updating"]
+    },
+    {
+      "title": "ZK circuits: Merkle path gadget",
+      "context": "Inside a SNARK/STARK, a Merkle gadget recomputes the root from a leaf and a path using a circuit-friendly hash (e.g., Poseidon).",
+      "inputs": ["public: root", "private: leaf, path"],
+      "process": "Constrain the fold computation in-circuit and assert the resulting root equals the public root.",
+      "outputs": ["proof that verifies off-chain/on-chain"],
+      "trust_assumptions": ["Soundness/completeness of the proof system", "Correct hash gadget"]
+    }
+  ],
+  "components": [
+    {
+      "name": "Spec (inductive Membership)",
+      "file": "src/Merkle/Spec.lean",
+      "summary": "Abstract relation: a leaf is a member of a tree with given root via a left/right path. Base and step rules model tree structure."
+    },
+    {
+      "name": "Core (Dir, Path)",
+      "file": "src/Merkle/Core.lean",
+      "summary": "Shared types: path direction (left/right) and a generic Path over labels, used across Spec, Verify, and Theorems."
+    },
+    {
+      "name": "Verify (fold + verify)",
+      "file": "src/Merkle/Verify.lean",
+      "summary": "Executable checker. Uses domain-separated hashing: hashLeft = tagLeft :: (sib ++ acc), hashRight = tagRight :: (acc ++ sib). Folds a path from the leaf and checks the resulting root equals the claimed root. Includes positive/negative demos and a mini 2-level tree."
+    },
+    {
+      "name": "Theorems (completeness & soundness)",
+      "file": "src/Merkle/Theorems.lean",
+      "summary": "Proves that valid paths always pass verify (completeness) and that if verify passes then a valid membership exists (soundness). Also includes helper lemmas tying spec to fold."
+    }
+  ],
+  "sequential_steps": [
+    {
+      "step": 1,
+      "title": "Build the project",
+      "commands": ["~/.elan/bin/lake build"],
+      "notes": "If elan/lake is on PATH, use 'lake build'."
+    },
+    {
+      "step": 2,
+      "title": "Understand the spec",
+      "open_files": ["src/Merkle/Spec.lean"],
+      "explain": "Membership is an inductive relation with base (leaf=root) and step cases (left/right)."
+    },
+    {
+      "step": 3,
+      "title": "Run the executable demos",
+      "commands": [
+        "~/.elan/bin/lake build merkle-demo",
+        "./.lake/build/bin/merkle-demo"
+      ],
+      "notes": "Alternatively: 'lake exe merkle-demo' if lake is on PATH.",
+      "expect": ["true", "false", "true", "false"]
+    },
+    {
+      "step": 4,
+      "title": "Map spec ⇄ execution",
+      "open_files": ["src/Merkle/Theorems.lean"],
+      "explain": "fold_eq_of_membership shows folding matches the spec’s root; completeness packages this into verify=true. membership_fold_self constructs membership to the folded root; soundness uses the equality from verify to conclude Membership."
+    },
+    {
+      "step": 5,
+      "title": "Visualize the fold",
+      "open_files": ["docs/merkle-fold.md"],
+      "notes": "Mermaid diagram shows left/right hashing steps and how fold reaches the root."
+    },
+    {
+      "step": 6,
+      "title": "Relate to real systems",
+      "checklist": [
+        "Explain why domain separation (left/right tags) matters.",
+        "Swap toy hashConcat for SHA/Keccak/Poseidon in production.",
+        "Discuss authenticity of root and collision resistance assumptions."
+      ]
+    },
+    {
+      "step": 7,
+      "title": "Run JSON CLI",
+      "commands": [
+        "~/.elan/bin/lake build merkle-verify-json",
+        "~/.elan/bin/lake exe merkle-verify-json docs/sample-vectors.json"
+      ],
+      "notes": "Outputs one line per case: 'case i: true/false'."
+    }
+  ],
+  "demos": {
+    "simple": {
+      "leaf": "demoLeaf = [5]",
+      "path": "[(left, [7]), (right, [3])]",
+      "expect": {"valid": true, "invalid_after_tweak": false}
+    },
+    "mini_tree": {
+      "leaves": {"L0": "[10]", "L1": "[11]", "L2": "[12]", "L3": "[13]"},
+      "internal": {"N01": "hashRight L0 L1", "N23": "hashRight L2 L3", "RootR": "hashRight N01 N23"},
+      "path_for_L2": "[(right, L3), (left, N01)]",
+      "expect": {"valid": true, "invalid_if_L2_changes": false}
+    }
+  },
+  "how_to_present": [
+    "Open Spec → show Membership.",
+    "Open Verify → show hashLeft/hashRight, fold, verify (no #eval in file).",
+    "Open Theorems → highlight completeness and soundness.",
+    "Run the executable: 'lake exe merkle-demo' (see four outputs: true/false/true/false).",
+    "Show the mermaid diagram in docs/merkle-fold.md to illustrate fold steps.",
+    "Close with real-world mapping (light clients, allowlists, ZK gadgets)."
+  ],
+  "production_notes": [
+    "Domain separation is mandatory; do not reuse encodings for left/right.",
+    "Use byte arrays and a standard hash; for ZK, use Poseidon/Rescue.",
+    "Ensure the root is authenticated (consensus / signature) before trusting inclusion proofs."
+  ],
+  "next_steps": [
+    "Swap the toy hash with an abstract Hash interface and document assumptions.",
+    "Add a JSON-driven test harness to feed (root, leaf, path) vectors.",
+    "Extend to sparse Merkle trees or account/state tries."
+  ]
+}
