@@ -9,7 +9,7 @@ Purpose: foundational types used by both the Spec (model) and Verify (implementa
 ## Flowchart
 ```mermaid
 flowchart LR
-  Dir[Dir: Left | Right]
+  Dir[Dir: Left or Right]
   Step[Step: (Dir, siblingHash)]
   Path[Path: List[Step]]
   Hash[Hash (placeholder)]
