@@ -9,11 +9,11 @@ Purpose: implement the concrete computation that mirrors the spec.
 ## Flowchart
 ```mermaid
 flowchart LR
-  In[Inputs: value, root, path] --> Fold[fold(path, value)]
-  Fold --> Out[computedRoot]
-  Out -->|==?| Check{computedRoot == root}
-  Check -->|true| Valid[return true]
-  Check -->|false| Invalid[return false]
+  In[Inputs] --> Fold[Fold path]
+  Fold --> Out[Computed root]
+  Out --> Check{Equal to root}
+  Check -->|yes| Valid[Valid]
+  Check -->|no| Invalid[Invalid]
 ```
 
 ## Minimal example

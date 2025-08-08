@@ -8,11 +8,11 @@ Purpose: define what it means for a value to be a member of a Merkle tree rooted
 ## Flowchart
 ```mermaid
 flowchart TD
-  V[Leaf value]
-  S1{Step 1: dir=Right, sib=s1}
-  H1[H1 = hashRight(V, s1)]
-  S2{Step 2: dir=Left, sib=s2}
-  H2[H2 = hashLeft(s2, H1)]
+  V[Leaf]
+  S1{Right step}
+  H1[hashRight]
+  S2{Left step}
+  H2[hashLeft]
   R[Root]
 
   V --> S1 --> H1 --> S2 --> H2 --> R

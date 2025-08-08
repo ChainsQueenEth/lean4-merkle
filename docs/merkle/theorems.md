@@ -10,10 +10,10 @@ Purpose: state/prove guarantees that the executable checker agrees with the decl
 ## Flowchart
 ```mermaid
 flowchart TD
-  Spec[Spec: Membership]
-  Impl[Impl: fold/verify]
-  Comp[Completeness: Spec ⇒ verify true]
-  Sound[Soundness: verify true ⇒ Spec]
+  Spec[Spec Membership]
+  Impl[Implementation fold and verify]
+  Comp[Completeness]
+  Sound[Soundness]
 
   Spec --> Comp
   Impl --> Comp

@@ -10,9 +10,9 @@ Purpose: foundational types used by both the Spec (model) and Verify (implementa
 ```mermaid
 flowchart LR
   Dir[Dir: Left or Right]
-  Step[Step: (Dir, siblingHash)]
-  Path[Path: List[Step]]
-  Hash[Hash (placeholder)]
+  Step[Step: Dir + siblingHash]
+  Path[Path: List of Steps]
+  Hash[Hash placeholder]
 
   Dir --> Step
   Step --> Path
