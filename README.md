@@ -39,6 +39,15 @@ lake update && lake build
  - `docs/merkle-fold.md` (diagram)
  - `docs/real-world-explainer.json`
 
+## Guided docs (start here)
+ If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
+ - [Core (types)](docs/merkle/core.md)
+ - [Spec (model)](docs/merkle/spec.md)
+ - [Verify (executable)](docs/merkle/verify.md)
+ - [Theorems (guarantees)](docs/merkle/theorems.md)
+ - [Demo (CLI 1)](docs/merkle/demo.md)
+ - [JSON CLI (CLI 2)](docs/merkle/json-cli.md)
+
 ## Notes
 - `hash` is a placeholder over `Nat` to keep the model small. Swap with a proper byte-level hash later.
 - Proofs are intentionally short and commented with `-- Reason:` hints.
