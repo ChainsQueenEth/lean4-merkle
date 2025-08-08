@@ -1,4 +1,4 @@
-9# JSON CLI (merkle-verify-json)
+# JSON CLI (merkle-verify-json)
 
 Purpose: verify many proofs from a JSON file and print true/false per case.
 
@@ -8,11 +8,11 @@ Purpose: verify many proofs from a JSON file and print true/false per case.
 ## Flow
 ```mermaid
 flowchart LR
-  File[Vectors JSON] --> Read[read file]
-  Read --> Parse[parse JSON -> cases]
-  Parse --> Map[for each case]
-  Map --> Verify[verify(root, value, path)]
-  Verify --> Print[print true/false]
+  File[Vectors JSON] --> Read[Read file]
+  Read --> Parse[Parse JSON]
+  Parse --> Map[For each case]
+  Map --> Verify[Verify case]
+  Verify --> Print[Print result]
 ```
 
 ## Example JSON
