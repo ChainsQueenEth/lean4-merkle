@@ -4,6 +4,17 @@
 
 A compact, portfolio-ready Lean 4 project: Spec → Executable → Proofs → Demo/CLI.
 
+## Contents
+
+- Build — [Build](#build)
+- Files — [Files](#files)
+- Run demos — [Run](#run)
+- Guided docs — [Guided docs (start here)](#guided-docs-start-here)
+- Architecture — [Architecture at a glance](#architecture-at-a-glance)
+- Fold visualization — [Fold visualization](#fold-visualization)
+- Real-world mapping — [Real-world mapping](#real-world-mapping)
+
+
 A self-contained Lean 4 + Lake project demonstrating a toy Merkle membership:
 - `Spec.lean`: abstract inductive `Membership` relation.
 - `Verify.lean`: executable verifier (`fold` + `verify`).
@@ -37,18 +48,6 @@ lake update && lake build
   - `src/Merkle/Demo.lean`
   - `src/Merkle/JsonCli.lean`
   - `docs/merkle-fold.md` (diagram)
-
-## Navigation
-
-- Build — [Build](#build)
-- Run demos — [Run](#run)
-- Files — [Files](#files)
-- Guided docs — [Guided docs (start here)](#guided-docs-start-here)
-- Architecture — [Architecture at a glance](#architecture-at-a-glance)
-- Fold visualization — [Fold visualization](#fold-visualization)
-- Real-world mapping — [Real-world mapping](#real-world-mapping)
-- JSON CLI — [docs/merkle/json-cli.md](docs/merkle/json-cli.md)
-
 
 ## Guided docs (start here)
  If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
