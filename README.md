@@ -40,16 +40,15 @@ lake update && lake build
 
 ## Navigation
 
-| Area | Link |
-| --- | --- |
-| Build | [Build](#build) |
-| Run demos | [Run](#run) |
-| Files overview | [Files](#files) |
-| Guided docs | [Guided docs (start here)](#guided-docs-start-here) |
-| Architecture diagram | [Architecture at a glance](#architecture-at-a-glance) |
-| Fold visualization | [Fold visualization](#fold-visualization) |
-| Real-world mapping | [Real-world mapping](#real-world-mapping) |
-| JSON CLI details | docs/merkle/json-cli.md |
+- Build — [Build](#build)
+- Run demos — [Run](#run)
+- Files — [Files](#files)
+- Guided docs — [Guided docs (start here)](#guided-docs-start-here)
+- Architecture — [Architecture at a glance](#architecture-at-a-glance)
+- Fold visualization — [Fold visualization](#fold-visualization)
+- Real-world mapping — [Real-world mapping](#real-world-mapping)
+- JSON CLI — [docs/merkle/json-cli.md](docs/merkle/json-cli.md)
+
 
 ## Guided docs (start here)
  If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
