@@ -149,7 +149,7 @@ flowchart LR
   H2 --> R[Root]
 ```
 
-More detail: see [docs/merkle-fold.md](docs/merkle-fold.md).
+More detail: see [docs/merkle-fold.md](docs/merkle-fold.md)
 
 Note:
 - In this toy encoding both steps use `hashRight` but with different argument order.
