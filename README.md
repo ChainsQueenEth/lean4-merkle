@@ -4,7 +4,16 @@
 
 A compact, portfolio-ready Lean 4 project: Spec → Executable → Proofs → Demo/CLI.
 
-## Contents
+A self-contained Lean 4 + Lake project demonstrating a toy Merkle membership:
+- `Spec.lean`: abstract inductive `Membership` relation.
+- `Verify.lean`: executable verifier (`fold` + `verify`).
+- `Theorems.lean`: statements for completeness and soundness (with `sorry` stubs to fill).
+ - `Core.lean`: shared core types (`Dir`, generic `Path`).
+ - `Demo.lean`: runnable demo (no `#eval` in source files).
+ - `JsonCli.lean`: JSON-driven test harness (CLI).
+
+
+ ## Contents
 
 - Build — [Build](#build)
 - Files — [Files](#files)
@@ -15,13 +24,6 @@ A compact, portfolio-ready Lean 4 project: Spec → Executable → Proofs → De
 - Real-world mapping — [Real-world mapping](#real-world-mapping)
 
 
-A self-contained Lean 4 + Lake project demonstrating a toy Merkle membership:
-- `Spec.lean`: abstract inductive `Membership` relation.
-- `Verify.lean`: executable verifier (`fold` + `verify`).
-- `Theorems.lean`: statements for completeness and soundness (with `sorry` stubs to fill).
- - `Core.lean`: shared core types (`Dir`, generic `Path`).
- - `Demo.lean`: runnable demo (no `#eval` in source files).
- - `JsonCli.lean`: JSON-driven test harness (CLI).
 
 ## Prereqs
 - Install elan (Lean toolchain): https://lean-lang.org/lean4/doc/quickstart.html
