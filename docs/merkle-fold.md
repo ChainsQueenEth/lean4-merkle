@@ -12,7 +12,7 @@ flowchart LR
 
   subgraph Hashes
     H1[hashRight L L3]
-    H2[hashLeft N01 H1]
+    H2[hashRight N01 H1]
   end
 
   %% Split edges and avoid parentheses in labels (Mermaid parser quirk)
@@ -28,6 +28,6 @@ flowchart LR
 
 Legend:
 - `(Dir.right, s)` applies `hashRight acc s`.
-- `(Dir.left, s)` applies `hashLeft s acc`.
+- `(Dir.left, s)` applies `hashRight s acc`.
 
 In `src/Merkle/Verify.lean`, `fold` implements this process using `foldl` with domain-tagged hashing to avoid ambiguity.

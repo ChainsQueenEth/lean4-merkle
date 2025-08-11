@@ -140,16 +140,23 @@ flowchart TD
 
 ## Fold visualization
 
-Inline example (GitHub renders Mermaid):
+Inline example:
 
 ```mermaid
 flowchart LR
   L[Leaf] -->|apply right L3| H1[hashRight L L3]
-  H1 -->|apply left N01| H2[hashLeft N01 H1]
+  H1 -->|apply left N01| H2[hashRight N01 H1]
   H2 --> R[Root]
 ```
 
 More detail: see `docs/merkle-fold.md`.
+
+Note:
+- In this toy encoding both steps use `hashRight` but with different argument order.
+  - Right step `(Dir.right, s)` → `hashRight acc s`
+  - Left step `(Dir.left, s)` → `hashRight s acc`
+- This keeps parent construction consistent (`Parent = hashRight left right`) and matches the sample vectors/CLI.
+- In production, you'd typically use distinct domain tags (or a true `hashLeft`) and bytes-based hashing.
 
 ## Real-world mapping
 
