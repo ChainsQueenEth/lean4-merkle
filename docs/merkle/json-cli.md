@@ -1,11 +1,11 @@
 # JSON CLI (merkle-verify-json)
 
-Purpose: verify many proofs from a JSON file and print true/false per case.
+Verify multiple Merkle membership proofs from a JSON file and print a result for each case.
 
-- Entry: `Merkle.JsonCli` (executable: `merkle-verify-json`)
-- Reads an array of cases: `{ root, leaf, path: [{ dir, sib }, ...] }`
-- Labels are byte lists (e.g., `[12]`), not plain integers.
-- Directions are strings: `"left"` or `"right"`.
+- **Entry point**: `Merkle.JsonCli` (executable: `merkle-verify-json`)
+- **Input**: array of cases `{ root, leaf, path: [{ dir, sib }, ...] }`
+- **Labels**: byte lists (e.g., `[12]`), not plain integers
+- **Directions**: strings `"left"` or `"right"`
 
 ## Schema (per case)
 
@@ -20,8 +20,8 @@ Purpose: verify many proofs from a JSON file and print true/false per case.
 }
 ```
 Notes:
-- Bytes are integers 0..255.
-- Directions must be exactly "left" or "right".
+- **Bytes** are integers 0..255
+- **Directions** must be exactly `"left"` or `"right"`
 
 ## Flow
 ```mermaid
@@ -67,7 +67,7 @@ lake build merkle-verify-json && lake exe merkle-verify-json docs/sample-vectors
 lake exe merkle-verify-json
 ```
 
-This behavior is implemented in `src/Merkle/JsonCli.lean`.
+Default resolution is implemented in `src/Merkle/JsonCli.lean`.
 
 ## Hashing notes (must match code)
 
@@ -85,7 +85,7 @@ case 0: true
 case 1: false
 ```
 
-This is implemented by `runCase` in `src/Merkle/JsonCli.lean`.
+Printing is implemented by `runCase` in `src/Merkle/JsonCli.lean`.
 
 ## Mapping to code constants
 
@@ -99,11 +99,13 @@ The first example above corresponds to constants in `src/Merkle/Verify.lean`:
 This is exactly the path `pathL2` and verifies with `verify RootR L2 pathL2 = true`.
 
 ## Blockchain mapping
-- Mirrors how an indexer or light client might batch-verify proofs against a known root.
-- Adaptable to contract calls or off-chain validation pipelines.
+
+- **Light clients / indexers**: batch-verify transactions or state against a known block/state root
+- **Contracts / off-chain**: adapt cases to on-chain calls or off-chain validation pipelines
 
 ## Troubleshooting
 
+**Common issues**
 - "JSON parse/decode error": check field names (`leaf` not `value`), directions (`"left"`/`"right"`), and that labels are byte lists (e.g., `[12]`).
 - "file not found": pass a correct path or rely on the default `docs/sample-vectors.json`.
 - Verification returns `false`: the `(root, leaf, path)` triple does not match the current hashing rules. Recompute the root using the code or use the verbose fold in `src/Merkle/Demo.lean` to derive the correct root.
