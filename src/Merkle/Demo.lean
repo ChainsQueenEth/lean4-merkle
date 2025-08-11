@@ -5,6 +5,33 @@ namespace Merkle
 
 open IO
 
+/-- Pretty-print a label (list of bytes) like [1, 10, 11]. -/
+def labelToString (xs : Label) : String :=
+  let parts := xs.map (fun b => toString (UInt8.toNat b))
+  "[" ++ String.intercalate ", " parts ++ "]"
+
+/-- Pretty-print direction. -/
+def dirToString (d : Dir) : String :=
+  match d with
+  | Dir.left => "left"
+  | Dir.right => "right"
+
+/-- Print each fold step for learning: shows dir, sibling, and new accumulator. -/
+def showFoldSteps (title : String) (leaf : Label) (p : Path Label) : IO Unit :=
+  let rec go (i : Nat) (acc : Label) (steps : List (Dir × Label)) : IO Unit :=
+    match steps with
+    | [] => pure ()
+    | (d, sib) :: rest =>
+      let acc' := match d with
+        | Dir.left  => hashRight sib acc
+        | Dir.right => hashRight acc sib
+      let line := s!"  step {i+1}: dir={dirToString d}, sib={labelToString sib} -> acc={labelToString acc'}"
+      (do println line; go (i+1) acc' rest)
+  do
+    println s!"{title}:"
+    println s!"  start leaf = {labelToString leaf}"
+    go 0 leaf p
+
 /-- Run the demo cases from Verify.lean and print results. -/
 def main : IO Unit := do
   -- Import demo bindings from Verify
@@ -23,4 +50,14 @@ def main : IO Unit := do
   println s!"MiniTree: verify RootR L2 pathL2              → {ok2} (expect: true)"
   println s!"MiniTree: verify RootR L2bad pathL2           → {bad2} (expect: false)"
 
+  -- Verbose step-by-step views
+  println ""
+  showFoldSteps "Verbose Demo fold (demoLeaf, demoPath)" demoLeaf demoPath
+  println ""
+  showFoldSteps "Verbose MiniTree fold (L2, pathL2)" L2 pathL2
+
 end Merkle
+
+/-! Top-level entry point required by Lean executables.
+Delegates to `Merkle.main` defined above. -/
+def main : IO Unit := Merkle.main

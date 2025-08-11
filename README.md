@@ -34,10 +34,10 @@ lake update && lake build
 - `src/Merkle/Spec.lean`
 - `src/Merkle/Verify.lean`
 - `src/Merkle/Theorems.lean`
- - `src/Merkle/Demo.lean`
- - `src/Merkle/JsonCli.lean`
- - `docs/merkle-fold.md` (diagram)
- - `docs/real-world-explainer.json`
+  - `src/Merkle/Demo.lean`
+  - `src/Merkle/JsonCli.lean`
+  - `docs/merkle-fold.md` (diagram)
+  - `docs/real-world-explainer.json` (optional explainer; may be .gitignored locally)
 
 ## Guided docs (start here)
  If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
@@ -63,9 +63,27 @@ lake build merkle-demo && lake exe merkle-demo
 lake build merkle-verify-json && lake exe merkle-verify-json docs/sample-vectors.json
 
 # If lake is not on PATH, prefix with ~/.elan/bin/lake
+# Or export PATH for this shell and run directly
+# export PATH="$HOME/.elan/bin:$PATH"
+# ./.lake/build/bin/merkle-demo
 ```
 
 Expected output (four lines): `true`, `false`, `true`, `false`.
+
+### Verbose output (for learning)
+`src/Merkle/Demo.lean` also prints step-by-step fold details so you can see how the accumulator changes at each path step:
+
+```
+Verbose Demo fold (demoLeaf, demoPath):
+  start leaf = [5]
+  step 1: dir=left, sib=[7] -> acc=[1, 7, 5]
+  step 2: dir=right, sib=[3] -> acc=[1, 1, 7, 5, 3]
+
+Verbose MiniTree fold (L2, pathL2):
+  start leaf = [12]
+  step 1: dir=right, sib=[13] -> acc=[1, 12, 13]
+  step 2: dir=left, sib=[1, 10, 11] -> acc=[1, 1, 10, 11, 1, 12, 13]
+```
 
 ## CI
 This repo includes a minimal GitHub Actions workflow under `.github/workflows/ci.yml` that installs elan and runs `lake update` and `lake build`.
@@ -107,6 +125,12 @@ flowchart TD
   Verify --> Demo
   Verify --> JsonCli
 ```
+
+## Versioning and hygiene
+
+- Source code and Lake config are committed.
+- Build artifacts under `.lake/` are ignored via `.gitignore`.
+- `docs/real-world-explainer.json` is an optional local explainer and is listed in `.gitignore`. Keep your own version locally or copy parts into the README/GigaNote. If you want it versioned, remove it from `.gitignore` and commit it.
 
 ## Fold visualization
 

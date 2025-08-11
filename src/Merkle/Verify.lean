@@ -20,7 +20,7 @@ def hashRight (acc sib : Label) : Label := hashConcat tagRight acc sib
 def fold (leaf : Label) (p : Path Label) : Label :=
   p.foldl (init := leaf) (fun acc (e : Dir × Label) =>
     match e with
-    | (Dir.left, sib)  => hashLeft sib acc
+    | (Dir.left, sib)  => hashRight sib acc
     | (Dir.right, sib) => hashRight acc sib)
 
 /-- Verify a leaf against a root with a given path. -/

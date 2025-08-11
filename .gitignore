@@ -1,0 +1,11 @@
+.lake/
+*.olean
+/.lake/build/
+!.gitignore
+
+# OS/editor junk
+.DS_Store
+*.log
+
+# Docs (non-essential local file)
+docs/real-world-explainer.json
