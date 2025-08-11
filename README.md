@@ -37,7 +37,7 @@ lake update && lake build
   - `src/Merkle/Demo.lean`
   - `src/Merkle/JsonCli.lean`
   - `docs/merkle-fold.md` (diagram)
-  - `docs/real-world-explainer.json` (optional explainer; may be .gitignored locally)
+
 
 ## Guided docs (start here)
  If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
