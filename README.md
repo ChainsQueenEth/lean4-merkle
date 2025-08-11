@@ -38,6 +38,18 @@ lake update && lake build
   - `src/Merkle/JsonCli.lean`
   - `docs/merkle-fold.md` (diagram)
 
+## Navigation
+
+| Area | Link |
+| --- | --- |
+| Build | [Build](#build) |
+| Run demos | [Run](#run) |
+| Files overview | [Files](#files) |
+| Guided docs | [Guided docs (start here)](#guided-docs-start-here) |
+| Architecture diagram | [Architecture at a glance](#architecture-at-a-glance) |
+| Fold visualization | [Fold visualization](#fold-visualization) |
+| Real-world mapping | [Real-world mapping](#real-world-mapping) |
+| JSON CLI details | docs/merkle/json-cli.md |
 
 ## Guided docs (start here)
  If you're new to Merkle proofs or Lean, read these short guides with flowcharts and examples:
@@ -125,12 +137,6 @@ flowchart TD
   Verify --> Demo
   Verify --> JsonCli
 ```
-
-## Versioning and hygiene
-
-- Source code and Lake config are committed.
-- Build artifacts under `.lake/` are ignored via `.gitignore`.
-- `docs/real-world-explainer.json` is an optional local explainer and is listed in `.gitignore`. Keep your own version locally or copy parts into the README/GigaNote. If you want it versioned, remove it from `.gitignore` and commit it.
 
 ## Fold visualization
 
