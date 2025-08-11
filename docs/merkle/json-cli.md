@@ -7,6 +7,22 @@ Purpose: verify many proofs from a JSON file and print true/false per case.
 - Labels are byte lists (e.g., `[12]`), not plain integers.
 - Directions are strings: `"left"` or `"right"`.
 
+## Schema (per case)
+
+```json
+{
+  "root": [byte],          // e.g., [1, 1, 10, 11, ...]
+  "leaf": [byte],          // e.g., [12]
+  "path": [
+    { "dir": "left" | "right", "sib": [byte] }
+  ],
+  "name": "optional string" // ignored by CLI (for humans)
+}
+```
+Notes:
+- Bytes are integers 0..255.
+- Directions must be exactly "left" or "right".
+
 ## Flow
 ```mermaid
 flowchart LR
@@ -59,6 +75,28 @@ This behavior is implemented in `src/Merkle/JsonCli.lean`.
 - Parent construction in examples uses `hashRight left right`.
 - The fold uses `hashRight sib acc` for left-steps and `hashRight acc sib` for right-steps.
 - If you change tags or hashing in `src/Merkle/Verify.lean`, you must update/recompute the JSON vectors accordingly.
+
+## Output format
+
+The CLI prints one line per case, indexed by order in the array:
+
+```text
+case 0: true
+case 1: false
+```
+
+This is implemented by `runCase` in `src/Merkle/JsonCli.lean`.
+
+## Mapping to code constants
+
+The first example above corresponds to constants in `src/Merkle/Verify.lean`:
+
+- `leaf = [12]` is `L2`
+- first step `{"dir":"right","sib":[13]}` uses sibling `L3`
+- second step `{"dir":"left","sib":[1,10,11]}` uses `N01`
+- `root = [1,1,10,11,1,12,13]` is `RootR`
+
+This is exactly the path `pathL2` and verifies with `verify RootR L2 pathL2 = true`.
 
 ## Blockchain mapping
 - Mirrors how an indexer or light client might batch-verify proofs against a known root.
